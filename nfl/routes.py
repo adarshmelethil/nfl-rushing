@@ -64,13 +64,13 @@ def init_app(app):
                 type='number',
                 min=1,
                 max=100,
-                value=10
-            ),
+                value=10),
+            html.Button("Download CSV", id="btn_csv"),
+            dcc.Download(id="download-csv"),
             dbc.Alert(
                 id="alert-msg",
                 is_open=False,
-                duration=4000,
-            ),
+                duration=4000),
             dash_table.DataTable(
                 id='data-table',
                 columns=[{"name": col_name, "id": col_name} for col_name in Rushing.colnames()],
@@ -83,8 +83,7 @@ def init_app(app):
                 sort_by=[],
 
                 filter_action='custom',
-                filter_query=''
-            )])
+                filter_query='')])
 
     def fetch_data(page, per_page, sort_by, filter_query):
         query = Rushing.query
@@ -131,6 +130,21 @@ def init_app(app):
         page, per_page, sort_by, filter_query = args
 
         return fetch_data(*args), None
+
+    @dash_app.callback(
+        Output("download-csv", "data"),
+        Input("btn_csv", "n_clicks"),
+        state=[Input('data-table', "page_current"),
+               Input('data-table', "page_size"),
+               Input('data-table', "sort_by"),
+               Input('data-table', "filter_query")],
+        prevent_initial_call=True,
+    )
+    def func(n_clicks, *args):
+        if n_clicks:
+            return dcc.send_data_frame(
+                pd.DataFrame(fetch_data(*args)).to_csv,
+                "nfl-rushing.csv", index=False)
 
     @dash_app.callback(
         Output('data-table', 'page_size'),
