@@ -54,4 +54,25 @@ We will evaluate you on your ability to solve the problem defined in the require
 If you have any questions regarding requirements, do not hesitate to email your contact at theScore for clarification.
 
 ### Installation and running this solution
-... TODO
+
+#### Start Database
+
+``` sh
+source env.sh
+./start-database.sh
+```
+
+#### Setup data
+
+``` sh
+source env.sh
+flask db upgrade
+nfl data load
+```
+
+#### Start app
+
+``` sh
+nfl server start
+```
+
