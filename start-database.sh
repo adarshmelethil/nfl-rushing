@@ -2,9 +2,9 @@
 set -euo pipefail
 
 VOLUME_NAME=nfl_data
-POSTGRES_DB=${POSTGRES_DB:-nfl}
-POSTGRES_USER=${POSTGRES_USER:-nfl}
-POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-nfl}
+
+source env.sh
+
 while [[ $# -gt 0 ]]; do
     key="$1"
 
