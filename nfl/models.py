@@ -45,7 +45,7 @@ class Rushing(db.Model):
     @staticmethod
     def colnames():
         return list(
-            map(Rushing.key_to_table,
+            map(Rushing.key_to_dict,
                 map(lambda kv: kv[0],
                     filter(lambda kv: not kv[0].startswith("_")
                            and not callable(kv[1])
@@ -91,7 +91,7 @@ class Rushing(db.Model):
         for key, value in self.__dict__.items():
             if key.startswith("_"):
                 continue
-            key = Rushing.key_to_table(key)
+            key = Rushing.key_to_dict(key)
 
             new_dict[key] = value
         return new_dict

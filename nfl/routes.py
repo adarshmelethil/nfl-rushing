@@ -10,6 +10,7 @@ import pandas as pd
 
 import operator as py_ops
 
+from nfl import db
 from nfl.models import Rushing
 
 
@@ -53,7 +54,6 @@ def init_app(app):
         server=app,
         routes_pathname_prefix='/')
 
-    print(Rushing.colnames())
     # Create Dash Layout
     dash_app.layout = html.Div(
         id='dash-container',
@@ -94,13 +94,27 @@ def init_app(app):
 
             col = getattr(Rushing, table_col_name)
             if operator_str == "contains":
-                query = query.filter(col.ilike(f'%{filter_value}%'))
+                if col.type.python_type is str:
+                    query = query.filter(col.ilike(f'%{filter_value}%'))
+                else:
+                    query = query.filter(col == filter_value)
             elif operator_str == "datestartswith":
                 pass
             else:
-                query = query.filter(
-                    getattr(py_ops, operator_str)(
-                        col, filter_value))
+                if col.type.python_type is not str:
+                    query = query.filter(
+                        getattr(py_ops, operator_str)(
+                            col, filter_value))
+
+        order_conditions = [
+            getattr(
+                getattr(
+                    Rushing,
+                    Rushing.key_to_table(s['column_id'])),
+                s["direction"])()
+            for s in sort_by]
+        if order_conditions:
+            query = query.order_by(*order_conditions)
 
         results = query.paginate(page=page+1, per_page=per_page).items
         return list(map(lambda p: p.to_dict(), results))
