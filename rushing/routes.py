@@ -5,13 +5,11 @@ import dash_bootstrap_components as dbc
 import dash_table
 import dash_html_components as html
 
-import json
 import pandas as pd
 
 import operator as py_ops
 
-from nfl import db
-from nfl.models import Rushing
+from rushing.models import Rushing
 
 
 OPERATORS = [['ge ', '>='],

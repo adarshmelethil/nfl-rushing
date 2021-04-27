@@ -1,4 +1,4 @@
-export FLASK_APP=nfl
+export FLASK_APP=rushing
 export POSTGRES_DB=${POSTGRES_DB:-nfl}
 export POSTGRES_USER=${POSTGRES_USER:-nfl}
 export POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-nfl}

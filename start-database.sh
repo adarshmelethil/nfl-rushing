@@ -37,7 +37,7 @@ done
 
 
 docker volume create ${VOLUME_NAME}
-exec docker run --rm -it --name nfl-rushing \
+exec docker run --rm -iu --name rushing-db \
     --mount "type=volume,source=${VOLUME_NAME},target=/var/lib/postgresql/data" \
     --publish 5432:5432 \
     --env POSTGRES_DB=${POSTGRES_DB} \

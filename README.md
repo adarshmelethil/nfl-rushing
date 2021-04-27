@@ -55,24 +55,69 @@ If you have any questions regarding requirements, do not hesitate to email your 
 
 ### Installation and running this solution
 
-#### Start Database
+#### Setup python environment
+
+(venv docs!)[https://docs.python.org/3/tutorial/venv.html]
 
 ``` sh
+python -m venv ./env
+source ./env/bin/activate
+# Once your python environment is setup. (-e is development, can be omited)
+pip install -e .
+```
+
+#### Manual local start up
+
+##### Start Database
+
+In the first terminal
+
+``` sh
+# There are common environment variables used to start up the database and environemnts in env.sh
 source env.sh
+# This starts up the database using docker
 ./start-database.sh
 ```
 
-#### Setup data
+##### Setup data
+
+In the second terminal.
 
 ``` sh
+# Source common environemnt variables
 source env.sh
+# Make sure database is updated
 flask db upgrade
+# Flood the data into database 
 nfl data load
 ```
 
-#### Start app
+##### Start app
 
 ``` sh
+# Start the flask server
 nfl server start
+```
+
+#### Docker Manually
+
+``` sh
+# Start the database similar to running locally
+./start-database.sh
+```
+
+``` sh
+# This will use the database start in docker and connect to it with a docker network bridge 
+# Build the image
+# Do database migrations 
+# Do data upload
+# Run the app
+./start-app-in-docker.sh
+```
+
+#### Docker compose
+
+``` sh
+docker compose up --build
 ```
 

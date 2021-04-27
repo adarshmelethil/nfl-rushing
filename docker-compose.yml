@@ -1,0 +1,31 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:9.6.17-alpine
+    environment:
+      - POSTGRES_DB=rushing
+      - POSTGRES_USER=rushing
+      - POSTGRES_PASSWORD=rushing
+  web:
+    build: .
+    entrypoint: bash
+    command:
+      - "-c"
+      - |-
+        set -euo pipefail
+        set -xv
+
+        FLASK_APP=rushing flask db upgrade
+        rushing data show
+        rushing data load
+        rushing server start --host=0.0.0.0 --port=8000
+    environment:
+      - POSTGRES_DB=rushing
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=rushing
+      - POSTGRES_PASSWORD=rushing
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db

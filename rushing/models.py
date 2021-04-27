@@ -1,4 +1,4 @@
-from nfl import db
+from rushing import db
 
 
 SPECIAL_CHAR_MAPPING = {
@@ -77,7 +77,7 @@ class Rushing(db.Model):
     def table_dict(dict_vals):
         new_dict = {}
         for key, value in dict_vals.items():
-            key = Rushing.key_to_dict(key)
+            key = Rushing.key_to_table(key)
             new_dict[key] = value
         return new_dict
 

@@ -21,8 +21,8 @@ import json
 
 from sqlalchemy.dialects.postgresql import insert
 
-from nfl import app, db
-from nfl.models import Rushing
+from rushing import app, db
+from rushing.models import Rushing
 
 
 def data_show(filepath):

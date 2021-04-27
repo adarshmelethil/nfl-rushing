@@ -12,5 +12,5 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 
-from nfl import routes, models
+from rushing import routes, models
 app = routes.init_app(app)
