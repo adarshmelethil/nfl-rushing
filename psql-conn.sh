@@ -2,8 +2,5 @@
 set -euo pipefail
 
 source env.sh
-POSTGRES_DB=${POSTGRES_DB:-nfl}
-POSTGRES_USER=${POSTGRES_USER:-nfl}
-POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-nfl}
 
-exec psql postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost:5432/${POSTGRES_DB}
+exec psql postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
